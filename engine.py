@@ -10,8 +10,8 @@ from itertools import product
 from typing import Tuple, Set, DefaultDict
 
 
-WIDTH = 50
-HEIGHT = 75
+WIDTH = 75
+HEIGHT = 50
 STILL_LIVE = 2
 NEW_BORN = 3
 
@@ -35,7 +35,7 @@ def milieu(central_cell: Tuple[int, int]) -> Set[Tuple[int, int]]:
     :param central_cell: координаты клетки
     :return: множество из координат соседей
     """
-    return {((central_cell[0]+i + WIDTH) % WIDTH, (central_cell[1]+j + HEIGHT) % HEIGHT)
+    return {((central_cell[0]+i + HEIGHT) % HEIGHT, (central_cell[1]+j + WIDTH) % WIDTH)
             for i, j in product(range(-1, 2), repeat=2) if i or j}
 
 

@@ -12,8 +12,6 @@ class Cell(QtWidgets.QWidget):
     def __init__(self, x, y, live=False, *args, **kwargs):
         super(Cell, self).__init__(*args, **kwargs)
 
-        self._flag = False
-
         self.setFixedSize(QtCore.QSize(16, 16))
         self.live = live
         self.pos = x, y
@@ -41,11 +39,11 @@ class GridOfCells(QtWidgets.QWidget):
         self.layout = QtWidgets.QGridLayout()
         self.layout.setSpacing(0)
 
-        for x in range(w):
-            for y in range(h):
-                cell = Cell(y, x)
+        for x in range(h):
+            for y in range(w):
+                cell = Cell(x, y)
                 cell.clicked.connect(self.cell_click)
-                self.layout.addWidget(cell, y, x)
+                self.layout.addWidget(cell, x, y)
 
         self.setLayout(self.layout)
 
