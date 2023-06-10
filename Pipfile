@@ -5,6 +5,9 @@ name = "pypi"
 
 [packages]
 pyqt5 = "*"
+pillow = "*"
+numpy = "*"
+scipy = "*"
 
 [dev-packages]
 

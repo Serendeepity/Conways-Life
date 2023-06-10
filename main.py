@@ -3,6 +3,7 @@ import sys
 from main_grid import GridOfCells
 from engine import infinite_generation, next_step
 from typing import Tuple, Set
+from image_prepare import image_prepare
 
 
 class Worker(QtCore.QThread):
@@ -80,6 +81,11 @@ class MyWindow(QtWidgets.QMainWindow):
         self.button_3.setText('Reset')
         self.button_3.clicked.connect(self.reset)
 
+        self.button_4 = QtWidgets.QPushButton()
+        self.button_4.setObjectName('ImageFile')
+        self.button_4.setText('Image')
+        self.button_4.clicked.connect(self.image_file)
+
         self.speed_ruler = QtWidgets.QDial()
         self.speed_ruler.setMinimum(1)
         self.speed_ruler.setMaximum(10)
@@ -106,6 +112,7 @@ class MyWindow(QtWidgets.QMainWindow):
         h_box.addWidget(self.button_0)
         h_box.addWidget(self.button_1)
         h_box.addWidget(self.button_3)
+        h_box.addWidget(self.button_4)
 
         self.grid = GridOfCells(w, h)
         self.grid.touched.connect(self.start_count)
@@ -125,11 +132,17 @@ class MyWindow(QtWidgets.QMainWindow):
         self.speed_value.display(e)
         self.speed = e
 
-    def update_interface(self, new_data):
+    def update_interface(self, new_data, cont=True):
         self.grid.renew(new_data)
-        self.lcdNumber_2.display(self.lcdNumber_2.value() + 1)
+        if cont:
+            self.lcdNumber_2.display(self.lcdNumber_2.value() + 1)
         self.lcdNumber_1.display(len(self.grid.lives))
         self.grid.update()
+
+    def image_file(self):
+        img_file = QtWidgets.QFileDialog.getOpenFileName(self, "Choose image file",
+                                                         '.', 'Images (* .jpg * .png)')[0]
+        self.update_interface(image_prepare(img_file), cont=False)
 
     def one_step(self):
         new = next_step(self.grid.lives)
